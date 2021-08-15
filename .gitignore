@@ -1,0 +1,4 @@
+node_modules
+
+promiseSettledAggregate.dist.js
+promiseSettledAggregate.dist.min.js
