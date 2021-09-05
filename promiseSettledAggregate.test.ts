@@ -6,7 +6,7 @@ it("rejects immediately on invalid arg", async () => {
   await expect(() => promiseSettledAggregate()).rejects.toThrow();
 });
 
-it("returns a promise", async () => {
+it("returns a promise", () => {
   expect(promiseSettledAggregate([])).toBeInstanceOf(Promise);
 });
 
@@ -34,8 +34,8 @@ it("rejects with AggregateError if multiple of the promises rejected", async () 
       Promise.resolve(5),
       Promise.reject(err),
       Promise.reject(err2),
-    ]).catch(async (e) => {
-      aggregateErr = e;
+    ]).catch((e) => {
+      aggregateErr = e as AggregateError;
       throw e;
     })
   ).rejects.toThrow("Some promises were rejected");
