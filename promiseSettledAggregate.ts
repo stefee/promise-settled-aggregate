@@ -4,9 +4,7 @@ type AwaitedAll<Promises> = {
     : Promises[I];
 };
 
-const promiseSettledAggregate = async <
-  T extends readonly PromiseLike<unknown>[]
->(
+const promiseSettledAggregate = async <T extends readonly unknown[]>(
   values: T
 ): Promise<AwaitedAll<T>> => {
   const allResults = await Promise.allSettled(values);

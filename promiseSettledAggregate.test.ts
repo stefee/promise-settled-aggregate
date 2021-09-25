@@ -12,7 +12,7 @@ it("returns a promise", async () => {
 });
 
 it("returns resolved values if all promises resolve", async () => {
-  const result = await promiseSettledAggregate([
+  const result: [number, boolean] = await promiseSettledAggregate([
     Promise.resolve(5),
     Promise.resolve(true),
   ]);
@@ -22,7 +22,7 @@ it("returns resolved values if all promises resolve", async () => {
 it("rejects with the error if one of the promises rejected", async () => {
   const err = new Error("Boom!");
   await expect(async () => {
-    const result = await promiseSettledAggregate([
+    const result: [number, never] = await promiseSettledAggregate([
       Promise.resolve(5),
       Promise.reject(err),
     ]);
