@@ -1,5 +1,2 @@
 node_modules
-
 *.d.ts
-promiseSettledAggregate.dist.js
-promiseSettledAggregate.dist.min.js

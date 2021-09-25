@@ -35,15 +35,17 @@ it("rejects with AggregateError if multiple of the promises rejected", async () 
   const err2 = new Error("Woopsie!");
   let aggregateErr: AggregateError | undefined;
   await expect(async () => {
-    const result = await promiseSettledAggregate([
-      Promise.resolve(5),
-      Promise.reject(err),
-      Promise.reject(err2),
-    ]).catch((e) => {
+    try {
+      const result: [number, never, never] = await promiseSettledAggregate([
+        Promise.resolve(5),
+        Promise.reject(err),
+        Promise.reject(err2),
+      ]);
+      return result;
+    } catch (e) {
       aggregateErr = e as AggregateError;
       throw e;
-    });
-    return result;
+    }
   }).rejects.toThrow("Some promises were rejected");
   expect(aggregateErr?.name).toBe("AggregateError");
   expect(aggregateErr?.errors).toEqual([err, err2]);

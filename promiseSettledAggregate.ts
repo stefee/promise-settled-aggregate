@@ -1,12 +1,10 @@
-type AwaitedAll<Promises> = {
-  -readonly [I in keyof Promises]: Promises[I] extends PromiseLike<infer Value>
-    ? Value
-    : Promises[I];
+type AwaitedValues<T extends readonly unknown[]> = {
+  -readonly [P in keyof T]: T[P] extends PromiseLike<infer U> ? U : T[P];
 };
 
 const promiseSettledAggregate = async <T extends readonly unknown[]>(
   values: T
-): Promise<AwaitedAll<T>> => {
+): Promise<AwaitedValues<T>> => {
   const allResults = await Promise.allSettled(values);
   const rejectedOnly = allResults.filter(
     (result): result is PromiseRejectedResult => result.status === "rejected"
@@ -16,7 +14,7 @@ const promiseSettledAggregate = async <T extends readonly unknown[]>(
   }
   if (rejectedOnly.length > 0) {
     throw new AggregateError(
-      rejectedOnly.map(({ reason }) => reason as unknown),
+      rejectedOnly.map((result) => result.reason as unknown),
       "Some promises were rejected"
     );
   }
@@ -26,10 +24,10 @@ const promiseSettledAggregate = async <T extends readonly unknown[]>(
   // promises, then all of them must have been fulfilled.
   const fulfilledResults = allResults as PromiseFulfilledResult<unknown>[];
 
-  // SAFETY: We must only cast to AwaitedAll if we know that the array
+  // SAFETY: We must only cast to AwaitedValues if we know that the array
   // contains the promises mapped to their fulfilled values. We know this
   // because we have all of the settled results, and all of them are fulfilled.
-  return fulfilledResults.map(({ value }) => value) as AwaitedAll<T>;
+  return fulfilledResults.map((result) => result.value) as AwaitedValues<T>;
 };
 
 export default promiseSettledAggregate;

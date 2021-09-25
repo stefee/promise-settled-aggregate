@@ -4,7 +4,7 @@ It works like [Promise.allSettled](https://developer.mozilla.org/en-US/docs/Web/
 
 If only one of the promises is rejected, the rejection will **not** be wrapped in AggregateError.
 
-```tsx
+```js
 try {
   const [a, b, c, d] = await promiseSettledAggregate([
     Promise.reject(new Error("Boom")),
@@ -12,7 +12,7 @@ try {
     Promise.resolve(true),
     Promise.reject(new Error("Pow")),
   ]);
-} catch (err: unknown) {
+} catch (err) {
   if (err instanceof AggregateError) {
     err.errors.forEach(console.error);
   } else {
@@ -21,6 +21,6 @@ try {
 }
 ```
 
-You may copy [the source code](https://github.com/stefee/promise-settled-aggregate/blob/main/promiseSettledAggregate.ts) directly into your project as this library is published under the Unlicense license.
+You may copy [the source code](https://github.com/stefee/promise-settled-aggregate/blob/main/promiseSettledAggregate.ts) (see [dist](./dist) for JS) directly into your project as this library is published under the Unlicense license.
 
 You can also install from npm registry (`npm install promise-settled-aggregate`).
