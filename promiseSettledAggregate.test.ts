@@ -6,13 +6,13 @@ it("rejects immediately on invalid arg", async () => {
 });
 
 it("returns a promise", async () => {
-  const p: Promise<never[]> = promiseSettledAggregate([]);
+  const p = promiseSettledAggregate([]);
   expect(p).toBeInstanceOf(Promise);
   await p;
 });
 
 it("returns resolved values if all promises resolve", async () => {
-  const result: [number, boolean] = await promiseSettledAggregate([
+  const result = await promiseSettledAggregate([
     Promise.resolve(5),
     Promise.resolve(true),
   ]);
@@ -22,7 +22,7 @@ it("returns resolved values if all promises resolve", async () => {
 it("rejects with the error if one of the promises rejected", async () => {
   const err = new Error("Boom!");
   await expect(async () => {
-    const result: [number, never] = await promiseSettledAggregate([
+    const result = await promiseSettledAggregate([
       Promise.resolve(5),
       Promise.reject(err),
     ]);
@@ -35,7 +35,7 @@ it("rejects with AggregateError if multiple of the promises rejected", async () 
   const err2 = new Error("Woopsie!");
   let aggregateErr: AggregateError | undefined;
   await expect(async () => {
-    const result: [number, never, never] = await promiseSettledAggregate([
+    const result = await promiseSettledAggregate([
       Promise.resolve(5),
       Promise.reject(err),
       Promise.reject(err2),

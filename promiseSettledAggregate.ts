@@ -1,7 +1,15 @@
-const promiseSettledAggregate: typeof Promise.all = async (
-  values: any
-): Promise<any> => {
-  const allResults = await Promise.allSettled<unknown[]>(values);
+type AwaitedAll<Promises> = {
+  -readonly [I in keyof Promises]: Promises[I] extends PromiseLike<infer Value>
+    ? Value
+    : Promises[I];
+};
+
+const promiseSettledAggregate = async <
+  T extends readonly PromiseLike<unknown>[]
+>(
+  values: T
+): Promise<AwaitedAll<T>> => {
+  const allResults = await Promise.allSettled(values);
   const rejectedOnly = allResults.filter(
     (result): result is PromiseRejectedResult => result.status === "rejected"
   );
@@ -14,9 +22,16 @@ const promiseSettledAggregate: typeof Promise.all = async (
       "Some promises were rejected"
     );
   }
-  // SAFETY: if there are zero rejected promises, then all of them must be fulfilled
+
+  // SAFETY: We must only cast to PromiseFulfilledResult if we know that the
+  // status of every result is "fulfilled". Since there were zero rejected
+  // promises, then all of them must have been fulfilled.
   const fulfilledResults = allResults as PromiseFulfilledResult<unknown>[];
-  return fulfilledResults.map(({ value }) => value);
+
+  // SAFETY: We must only cast to AwaitedAll if we know that the array
+  // contains the promises mapped to their fulfilled values. We know this
+  // because we have all of the settled results, and all of them are fulfilled.
+  return fulfilledResults.map(({ value }) => value) as AwaitedAll<T>;
 };
 
 export default promiseSettledAggregate;
