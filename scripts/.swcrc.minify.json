@@ -3,7 +3,7 @@
     "parser": {
       "syntax": "typescript"
     },
-    "target": "es2017",
+    "target": "es2018",
     "minify": {
       "compress": true,
       "mangle": true
