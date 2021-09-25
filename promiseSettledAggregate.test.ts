@@ -1,8 +1,7 @@
 import promiseSettledAggregate from "./promiseSettledAggregate";
 
 it("rejects immediately on invalid arg", async () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  /* @ts-expect-error */
+  // @ts-expect-error (omitting required param for test purposes)
   await expect(() => promiseSettledAggregate()).rejects.toThrow();
 });
 
@@ -28,7 +27,7 @@ it("rejects with the error if one of the promises rejected", async () => {
 it("rejects with AggregateError if multiple of the promises rejected", async () => {
   const err = new Error("Boom!");
   const err2 = new Error("Woopsie!");
-  let aggregateErr: AggregateError;
+  let aggregateErr: AggregateError | undefined;
   await expect(() =>
     promiseSettledAggregate([
       Promise.resolve(5),
@@ -39,6 +38,6 @@ it("rejects with AggregateError if multiple of the promises rejected", async () 
       throw e;
     })
   ).rejects.toThrow("Some promises were rejected");
-  expect(aggregateErr!.name).toBe("AggregateError");
-  expect(aggregateErr!.errors).toEqual([err, err2]);
+  expect(aggregateErr?.name).toBe("AggregateError");
+  expect(aggregateErr?.errors).toEqual([err, err2]);
 });

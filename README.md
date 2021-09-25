@@ -21,6 +21,6 @@ try {
 }
 ```
 
-You may copy [the source code](https://github.com/stefee/promise-settled-aggregate/blob/main/promiseSettledAggregate.js) directly into your project as this library is published under the Unlicense license.
+You may copy [the source code](https://github.com/stefee/promise-settled-aggregate/blob/main/promiseSettledAggregate.ts) directly into your project as this library is published under the Unlicense license.
 
 You can also install from npm registry (`npm install promise-settled-aggregate`).

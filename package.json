@@ -7,11 +7,12 @@
   "files": [
     "promiseSettledAggregate.dist.js",
     "promiseSettledAggregate.dist.min.js",
-    "promiseSettledAggregate.d.ts"
+    "promiseSettledAggregate.d.ts",
+    "promiseSettledAggregate.ts"
   ],
   "scripts": {
     "prepare": "./build.sh",
-    "test": "tsc && jest",
+    "test": "jest",
     "lint": "eslint *.js *.ts"
   },
   "repository": {
