@@ -3,8 +3,8 @@ const promiseSettledAggregate: typeof Promise.all = async (
 ): Promise<any> => {
   const allResults = await Promise.allSettled<unknown[]>(values);
   const rejectedOnly = allResults.filter(
-    (result) => result.status === "rejected"
-  ) as PromiseRejectedResult[];
+    (result): result is PromiseRejectedResult => result.status === "rejected"
+  );
   if (rejectedOnly.length === 1 && rejectedOnly[0]) {
     throw rejectedOnly[0].reason;
   }
@@ -14,9 +14,9 @@ const promiseSettledAggregate: typeof Promise.all = async (
       "Some promises were rejected"
     );
   }
-  return (allResults as PromiseFulfilledResult<unknown>[]).map(
-    ({ value }) => value
-  );
+  // SAFETY: if there are zero rejected promises, then all of them must be fulfilled
+  const fulfilledResults = allResults as PromiseFulfilledResult<unknown>[];
+  return fulfilledResults.map(({ value }) => value);
 };
 
 export default promiseSettledAggregate;
