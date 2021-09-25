@@ -1,6 +1,6 @@
 {
   "name": "promise-settled-aggregate",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "dist/promiseSettledAggregate.cjs",
   "module": "dist/promiseSettledAggregate.js",
   "browser": "dist/promiseSettledAggregate.min.js",
