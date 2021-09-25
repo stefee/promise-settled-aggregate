@@ -3,7 +3,7 @@
   "version": "0.3.3",
   "main": "dist/promiseSettledAggregate.cjs",
   "module": "dist/promiseSettledAggregate.js",
-  "browser": "dist/promiseSettledAggregate.min.js",
+  "browser": "dist/promiseSettledAggregate.cjs",
   "types": "promiseSettledAggregate.d.ts",
   "files": [
     "dist/*",

@@ -3,11 +3,13 @@
     "parser": {
       "syntax": "typescript"
     },
-    "target": "es2021"
+    "target": "es2018",
+    "minify": {
+      "compress": true,
+      "mangle": true
+    }
   },
   "module": {
-    "type": "commonjs",
-    "strict": true,
-    "strictMode": false
+    "type": "commonjs"
   }
 }

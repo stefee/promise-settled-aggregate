@@ -1,23 +1,15 @@
-exports.default = void 0;
-const promiseSettledAggregate = async (values)=>{
-    const allResults = await Promise.allSettled(values);
-    const rejectedOnly = allResults.filter((result)=>result.status === "rejected"
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), exports.default = void 0;
+const promiseSettledAggregate = async (a)=>{
+    const b = await Promise.allSettled(a), c = b.filter((d)=>"rejected" === d.status
     );
-    if (rejectedOnly.length === 1 && rejectedOnly[0]) {
-        throw rejectedOnly[0].reason;
-    }
-    if (rejectedOnly.length > 0) {
-        throw new AggregateError(rejectedOnly.map((result)=>result.reason
-        ), "Some promises were rejected");
-    }
-    // SAFETY: We must only cast to PromiseFulfilledResult if we know that the
-    // status of every result is "fulfilled". Since there were zero rejected
-    // promises, then all of them must have been fulfilled.
-    const fulfilledResults = allResults;
-    // SAFETY: We must only cast to AwaitedValues if we know that the array
-    // contains the promises mapped to their fulfilled values. We know this
-    // because we have all of the settled results, and all of them are fulfilled.
-    return fulfilledResults.map((result)=>result.value
+    if (1 === c.length && c[0]) throw c[0].reason;
+    if (c.length > 0) throw new AggregateError(c.map((e)=>e.reason
+    ), "Some promises were rejected");
+    const f = b;
+    return f.map((g)=>g.value
     );
 };
 var _default = promiseSettledAggregate;
