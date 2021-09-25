@@ -5,12 +5,14 @@ it("rejects immediately on invalid arg", async () => {
   await expect(() => promiseSettledAggregate()).rejects.toThrow();
 });
 
-it("returns a promise", () => {
-  expect(promiseSettledAggregate([])).toBeInstanceOf(Promise);
+it("returns a promise", async () => {
+  const p: Promise<never[]> = promiseSettledAggregate([]);
+  expect(p).toBeInstanceOf(Promise);
+  await p;
 });
 
 it("returns resolved values if all promises resolve", async () => {
-  const result = await promiseSettledAggregate([
+  const result: [number, boolean] = await promiseSettledAggregate([
     Promise.resolve(5),
     Promise.resolve(true),
   ]);
@@ -19,25 +21,30 @@ it("returns resolved values if all promises resolve", async () => {
 
 it("rejects with the error if one of the promises rejected", async () => {
   const err = new Error("Boom!");
-  await expect(() =>
-    promiseSettledAggregate([Promise.resolve(5), Promise.reject(err)])
-  ).rejects.toThrow(err);
+  await expect(async () => {
+    const result: [number, never] = await promiseSettledAggregate([
+      Promise.resolve(5),
+      Promise.reject(err),
+    ]);
+    return result;
+  }).rejects.toThrow(err);
 });
 
 it("rejects with AggregateError if multiple of the promises rejected", async () => {
   const err = new Error("Boom!");
   const err2 = new Error("Woopsie!");
   let aggregateErr: AggregateError | undefined;
-  await expect(() =>
-    promiseSettledAggregate([
+  await expect(async () => {
+    const result: [number, never, never] = await promiseSettledAggregate([
       Promise.resolve(5),
       Promise.reject(err),
       Promise.reject(err2),
     ]).catch((e) => {
       aggregateErr = e as AggregateError;
       throw e;
-    })
-  ).rejects.toThrow("Some promises were rejected");
+    });
+    return result;
+  }).rejects.toThrow("Some promises were rejected");
   expect(aggregateErr?.name).toBe("AggregateError");
   expect(aggregateErr?.errors).toEqual([err, err2]);
 });
