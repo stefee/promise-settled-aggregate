@@ -42,7 +42,7 @@
   ],
   "devDependencies": {
     "@swc-node/jest": "1.3.5",
-    "@swc/cli": "0.1.51",
+    "@swc/cli": "0.1.50",
     "@swc/core": "1.2.105",
     "@types/jest": "27.0.2",
     "@typescript-eslint/eslint-plugin": "4.33.0",

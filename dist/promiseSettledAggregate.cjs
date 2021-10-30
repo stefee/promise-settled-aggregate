@@ -1,14 +1,14 @@
 "use strict";
 async function promiseSettledAggregate(a) {
-    const b = await Promise.allSettled(a), c = b.filter((d)=>"rejected" === d.status
+    const b = await Promise.allSettled(a), c = b.filter((a)=>"rejected" === a.status
     );
     if (c.length <= 0) {
-        const e = b, f = e.map((g)=>g.value
+        const d = b, e = d.map((a)=>a.value
         );
-        return f;
+        return e;
     }
     if (1 === c.length && c[0]) throw c[0].reason;
-    throw new AggregateError(c.map((h)=>h.reason
+    throw new AggregateError(c.map((a)=>a.reason
     ), "Some promises were rejected");
 }
 Object.defineProperty(exports, "__esModule", {
