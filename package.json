@@ -41,9 +41,9 @@
     "aggregateerror"
   ],
   "devDependencies": {
-    "@swc-node/jest": "1.4.0",
+    "@swc-node/jest": "1.4.1",
     "@swc/cli": "0.1.51",
-    "@swc/core": "1.2.107",
+    "@swc/core": "1.2.108",
     "@types/jest": "27.0.2",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "eslint": "7.32.0",
