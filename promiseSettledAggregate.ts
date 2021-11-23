@@ -4,8 +4,7 @@ type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
  * Creates a Promise that is resolved after all of the input Promises have
  * either fulfilled or rejected, with an array of the results if all of the
  * provided Promises resolve, or rejected with an AggregateError if some
- * Promises rejected. If exactly one of the input Promises rejected, it is
- * rejected with this rejection instead.
+ * Promises rejected.
  * @param values An array of Promises.
  * @returns A new Promise.
  */
@@ -17,8 +16,7 @@ async function promiseSettledAggregate<
  * Creates a Promise that is resolved after all of the input Promises have
  * either fulfilled or rejected, with an array of the results if all of the
  * provided Promises resolve, or rejected with an AggregateError if some
- * Promises rejected. If exactly one of the input Promises rejected, it is
- * rejected with this rejection instead.
+ * Promises rejected.
  * @param values An array of Promises.
  * @returns A new Promise.
  */
@@ -46,10 +44,6 @@ async function promiseSettledAggregate<T>(
     // the settled results, and so the values will be in the same order and
     // match the awaited type of the input promises.
     return allFulfilledValues as Awaited<T>[];
-  }
-
-  if (rejectedOnly.length === 1 && rejectedOnly[0]) {
-    throw rejectedOnly[0].reason;
   }
 
   throw new AggregateError(

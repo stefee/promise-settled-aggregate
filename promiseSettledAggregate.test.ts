@@ -19,15 +19,23 @@ it("returns resolved values if all promises resolve", async () => {
   expect(result).toEqual([5, true]);
 });
 
-it("rejects with the error if one of the promises rejected", async () => {
+it("rejects with AggregateError if one of the promises rejected", async () => {
   const err = new Error("Boom!");
+  let aggregateErr: AggregateError | undefined;
   await expect(async () => {
-    const result: [number, never] = await promiseSettledAggregate([
-      Promise.resolve(5),
-      Promise.reject(err),
-    ]);
-    return result;
-  }).rejects.toThrow(err);
+    try {
+      const result: [number, never] = await promiseSettledAggregate([
+        Promise.resolve(5),
+        Promise.reject(err),
+      ]);
+      return result;
+    } catch (e) {
+      aggregateErr = e as AggregateError;
+      throw e;
+    }
+  }).rejects.toThrow("Some promises were rejected");
+  expect(aggregateErr?.name).toBe("AggregateError");
+  expect(aggregateErr?.errors).toEqual([err]);
 });
 
 it("rejects with AggregateError if multiple of the promises rejected", async () => {

@@ -13,9 +13,6 @@ async function promiseSettledAggregate(values) {
         // match the awaited type of the input promises.
         return allFulfilledValues;
     }
-    if (rejectedOnly.length === 1 && rejectedOnly[0]) {
-        throw rejectedOnly[0].reason;
-    }
     throw new AggregateError(rejectedOnly.map((result)=>result.reason
     ), "Some promises were rejected");
 }

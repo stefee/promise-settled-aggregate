@@ -7,7 +7,6 @@ async function promiseSettledAggregate(a) {
         );
         return e;
     }
-    if (1 === c.length && c[0]) throw c[0].reason;
     throw new AggregateError(c.map((a)=>a.reason
     ), "Some promises were rejected");
 }
