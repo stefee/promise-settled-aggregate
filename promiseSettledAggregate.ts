@@ -1,5 +1,3 @@
-type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
-
 /**
  * Creates a Promise that is resolved after all of the input Promises have
  * either fulfilled or rejected, with an array of the results if all of the
