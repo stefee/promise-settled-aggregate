@@ -19,4 +19,8 @@ try {
 
 You may copy [the source code](https://github.com/stefee/promise-settled-aggregate/blob/main/promiseSettledAggregate.ts) (see [dist](./dist) for JS) directly into your project as this library is published under the Unlicense license.
 
-You can also install from npm registry (`npm install promise-settled-aggregate`).
+You can also install it as a npm dependency:
+
+```
+npm install promise-settled-aggregate
+```
